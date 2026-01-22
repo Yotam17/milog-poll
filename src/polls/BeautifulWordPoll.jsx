@@ -13,8 +13,9 @@ function shuffle(array) {
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
   return arr;
-}
+} 
 
+//Main
 export default function BeautifulWordPoll() {
   const [hasVoted, setHasVoted] = useState(false);
   const [justVoted, setJustVoted] = useState(false);
