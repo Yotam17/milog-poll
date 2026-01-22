@@ -23,12 +23,13 @@ export default function BeautifulWordPoll() {
   const shuffledWords = useMemo(() => shuffle(words), []);
 
   useEffect(() => {
+    const bypassVoted = window.location.search.includes("debug=2");
     const voted = localStorage.getItem(STORAGE_KEY) === "1";
-    setHasVoted(voted);
+    setHasVoted(voted && !bypassVoted);
 
     track("poll_view", { slug: POLL_SLUG });
 
-    if (voted) {
+    if (voted && !bypassVoted) {
       track("poll_already_voted_view", { slug: POLL_SLUG });
     }
   }, []);
@@ -36,7 +37,8 @@ export default function BeautifulWordPoll() {
   const submitVote = (payload) => {
     const isDebug =
       window.location.hostname === "localhost" ||
-      window.location.search.includes("debug=1");
+      window.location.search.includes("debug=1") ||
+      window.location.search.includes("debug=2");
 
     // Save to localStorage first
     localStorage.setItem(STORAGE_KEY, "1");
@@ -206,7 +208,7 @@ export default function BeautifulWordPoll() {
             איך בוחרים את המילה היפה ביותר בעברית? איש אינו סבור ש'חרחור' היא מילה יפה. מילה נאה ומרגשת כמו 'אהבה' נשמעת למרבה הצער מונוטונית וחסרת כוח. למילים יפות יש סגולות הקשורות בצליל המילה, במשחק בין העיצורים והתנועות, ולעיתים בקשר מסתורי עם משמעות המילה. יש להבדיל בין מילה 'אהובה' כמו 'משפחה' שצלילה דווקא אינו נעים לאוזן, או מילה 'חשובה' כמו 'אחריות', לבין מילים שיש להן סגולות יופי.
           </p>
           <p>
-            כדי לבחון את טעם הדוברים בשאלת היופי, <a href="https://www.ruvik.co.il/%D7%94%D7%98%D7%95%D7%A8-%D7%94%D7%A9%D7%91%D7%95%D7%A2%D7%99/2026/23126.aspx" target="_blank" rel="noopener noreferrer" className="textLink">הזירה הלשונית</a> ומילוג מכריזים על סקר המילה היפה ביותר בעברית. לצורך הסקר מוצגות 25 מילים שנבחרו על ידינו, וכן ניתנת כמובן אפשרות לבחור מילה שאינה ברשימה. לאחר שיתקבלו התוצאות — עד יום שלישי הבא — הן יפורסמו כאן ובזירה הלשונית.
+            כדי לבחון את טעם הדוברים בשאלת היופי, <a href="https://www.ruvik.co.il/%D7%94%D7%98%D7%95%D7%A8-%D7%94%D7%A9%D7%91%D7%95%D7%A2%D7%99/2026/23126.aspx" target="_blank" rel="noopener noreferrer" className="textLink">הזירה הלשונית</a> ומילוג מכריזים על סקר המילה היפה ביותר בעברית. לצורך הסקר מוצגות 25 מילים שנבחרו על ידינו, וכן ניתנת כמובן אפשרות לבחור מילה שאינה ברשימה. לאחר שיתקבלו התוצאות - עד יום שלישי הבא - הן יפורסמו כאן ובזירה הלשונית.
           </p>
         </div>
       </header>
@@ -254,7 +256,7 @@ export default function BeautifulWordPoll() {
           </button>
         </div>
         <div className="hint">
-          אין הצגת תוצאות כעת — הן יפורסמו בשבוע הבא.
+          אין הצגת תוצאות כעת - הן יפורסמו בשבוע הבא.
         </div>
       </section>
 
@@ -282,7 +284,7 @@ export default function BeautifulWordPoll() {
         .page{padding:24px; max-width:1000px; margin:0 auto; color:#111;}
         .header{margin-bottom:24px; text-align:center;}
         .title{font-size:35px; margin:0 0 20px; letter-spacing:-0.3px; font-weight:600;}
-        .intro{text-align:right; font-size:17px; line-height:1.75; color:#333; max-width:800px; margin:0 auto;}
+        .intro{text-align:right; font-size:19px; line-height:1.75; color:#333; max-width:800px; margin:0 auto;}
         .intro p{margin:0 0 16px;}
         .intro p:last-child{margin-bottom:0;}
         .textLink{color:#2563eb; text-decoration:none; border-bottom:1px solid #93c5fd; padding-bottom:1px; transition:all 120ms ease;}
